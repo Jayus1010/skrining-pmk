@@ -7,7 +7,7 @@
     <style>
         body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #eef2f3; padding: 20px; color: #333; }
         .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-        h2 { color: #1b5e20; text-align: center; margin-bottom: 5px; font-size: 22px; }
+        h2 { color: #1b5e20; text-align: center; margin-bottom: 5px; font-size: 20px; text-transform: uppercase; }
         p.subtitle { text-align: center; font-size: 13px; color: #666; margin-bottom: 25px; }
         .divider { height: 4px; background: #2e7d32; width: 60px; margin: 0 auto 20px; border-radius: 2px; }
         
@@ -22,7 +22,7 @@
 
         button { width: 100%; padding: 15px; background: #2e7d32; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 20px; }
         button:hover { background: #1b5e20; }
-        button:disabled { background: #ccc; cursor: wait; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
 
         #result { margin-top: 25px; padding: 20px; border-radius: 10px; display: none; text-align: center; font-size: 20px; font-weight: bold; }
         .status-DITERIMA { background: #d4edda; color: #155724; border: 2px solid #c3e6cb; }
@@ -35,33 +35,33 @@
 <div class="container">
     <h2>Skrining Tamu</h2>
     <h2>PT Santosa Agrindo Farm Bekri</h2>
-    <p class="subtitle">Sistem Pencegahan Penyebaran Wabah PMK</p>
+    <p class="subtitle">Prosedur Biosekuriti Pencegahan Wabah PMK</p>
     <div class="divider"></div>
     
     <div class="field">
         <label>Nama Lengkap</label>
-        <input type="text" id="nama" placeholder="Masukkan nama sesuai KTP">
+        <input type="text" id="nama" placeholder="Nama sesuai identitas">
     </div>
     <div class="field">
-        <label>NIK (16 Digit Angka)</label>
-        <input type="text" id="nik" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="Contoh: 1801234567890001">
+        <label>NIK (Hanya Angka - 16 Digit)</label>
+        <input type="text" id="nik" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="Contoh: 1801...">
     </div>
     <div class="field">
-        <label>No. HP / WhatsApp (Angka)</label>
-        <input type="text" id="hp" maxlength="15" oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="Contoh: 08123456789">
+        <label>No. HP / WhatsApp (Hanya Angka)</label>
+        <input type="text" id="hp" maxlength="15" oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="Contoh: 0812...">
     </div>
     <div class="field">
         <label>Instansi / Perusahaan</label>
-        <input type="text" id="instansi" placeholder="Misal: PT. ABC / Dinas Peternakan / Pribadi">
+        <input type="text" id="instansi" placeholder="Contoh: PT. ABC / Dinas / Pribadi">
     </div>
     <div class="field">
-        <label>Alamat Asal</label>
-        <input type="text" id="alamat" placeholder="Kota / Kabupaten Asal">
+        <label>Alamat Asal / Domisili</label>
+        <input type="text" id="alamat" placeholder="Kota / Kabupaten">
     </div>
 
     <div class="q-section">
         <div class="q-item">
-            <label>1. Dalam 72 jam terakhir, apakah Anda mengunjungi peternakan lain?</label>
+            <label>1. Dalam 72 jam (3 hari) terakhir, apakah Anda mengunjungi peternakan sapi/kambing/babi lain?</label>
             <select id="q1" style="width:100%">
                 <option value="0">Tidak</option>
                 <option value="40">Ya</option>
@@ -75,96 +75,12 @@
             </select>
         </div>
         <div class="q-item">
-            <label>3. Apakah Anda kontak langsung dengan ternak dalam 24 jam terakhir?</label>
+            <label>3. Apakah Anda melakukan kontak langsung dengan hewan ternak dalam 24 jam terakhir?</label>
             <select id="q3" style="width:100%">
                 <option value="0">Tidak</option>
                 <option value="40">Ya</option>
             </select>
         </div>
         <div class="q-item">
-            <label>4. Apakah membawa produk asal hewan (daging mentah, susu segar, olahan kulit)?</label>
+            <label>4. Apakah Anda membawa produk asal hewan (daging mentah, susu segar, olahan kulit) saat ini?</label>
             <select id="q4" style="width:100%">
-                <option value="0">Tidak</option>
-                <option value="30">Ya</option>
-            </select>
-        </div>
-        <div class="q-item">
-            <label>5. Apakah kendaraan yang Anda gunakan melewati area pasar hewan / zona merah PMK?</label>
-            <select id="q5" style="width:100%">
-                <option value="0">Tidak</option>
-                <option value="20">Ya</option>
-            </select>
-        </div>
-    </div>
-
-    <button id="btnKirim" onclick="kirimData()">Simpan & Cek Hasil</button>
-    <div id="result"></div>
-</div>
-
-<script>
-    async function kirimData() {
-        // URL APPS SCRIPT ANDA
-        const url = 'https://script.google.com/macros/s/AKfycbw8g7PmePdymxGFiYHq8MxIwwhU5L9AhVK6EFpugkjS90wh5NcJSw-QMlBeyfVZGQs/exec';
-        
-        const btn = document.getElementById('btnKirim');
-        const resDiv = document.getElementById('result');
-
-        const data = {
-            waktu: new Date().toLocaleString('id-ID'),
-            nama: document.getElementById('nama').value,
-            nik: document.getElementById('nik').value,
-            hp: document.getElementById('hp').value,
-            instansi: document.getElementById('instansi').value,
-            alamat: document.getElementById('alamat').value,
-            skor: parseInt(document.getElementById('q1').value) + 
-                  parseInt(document.getElementById('q2').value) + 
-                  parseInt(document.getElementById('q3').value) + 
-                  parseInt(document.getElementById('q4').value) + 
-                  parseInt(document.getElementById('q5').value)
-        };
-
-        // Validasi pengisian
-        if(!data.nama || !data.nik || !data.hp || !data.alamat || !data.instansi) {
-            alert("Harap lengkapi semua data identitas sebelum melanjutkan!");
-            return;
-        }
-
-        // Penentuan Keputusan
-        if (data.skor === 0) {
-            data.keputusan = "DITERIMA";
-        } else if (data.skor <= 40) {
-            data.keputusan = "TERBATAS";
-        } else {
-            data.keputusan = "DITOLAK";
-        }
-
-        btn.innerText = "Mengirim Data ke Server...";
-        btn.disabled = true;
-
-        try {
-            await fetch(url, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify(data)
-            });
-
-            resDiv.style.display = "block";
-            resDiv.className = "status-" + data.keputusan;
-            resDiv.innerHTML = `HASIL KEPUTUSAN: ${data.keputusan}`;
-            
-            alert("Berhasil! Data telah terekap di Google Sheets PT Santosa Agrindo.");
-            
-            // Bersihkan form
-            document.querySelectorAll('input').forEach(i => i.value = '');
-            document.querySelectorAll('select').forEach(s => s.value = '0');
-        } catch (e) {
-            alert("Terjadi kesalahan koneksi internet.");
-        } finally {
-            btn.innerText = "Simpan & Cek Hasil";
-            btn.disabled = false;
-        }
-    }
-</script>
-
-</body>
-</html>
