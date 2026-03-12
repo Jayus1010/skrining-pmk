@@ -87,4 +87,113 @@
         </div>
         <div class="field">
             <label>NIK (16 Digit)</label>
-            <input type="text" id="nik" maxlength="16" oninput="this.
+            <input type="text" id="nik" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="Input angka saja">
+        </div>
+        <div class="field">
+            <label>No. HP / WhatsApp</label>
+            <input type="text" id="hp" maxlength="15" oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="Input angka saja">
+        </div>
+        <div class="field">
+            <label>Instansi / Perusahaan</label>
+            <input type="text" id="instansi" placeholder="Contoh: PT. ABC / Pribadi">
+        </div>
+        <div class="field">
+            <label>Alamat Asal / Domisili</label>
+            <input type="text" id="alamat" placeholder="Kota / Kabupaten">
+        </div>
+    </div>
+
+    <div class="section-title">📋 Kuesioner Biosecurity</div>
+
+    <div class="q-box"><label>1. Dalam 72 jam (3 hari) terakhir, apakah mengunjungi peternakan lain?</label>
+        <select id="q1"><option value="0">TIDAK</option><option value="40">YA</option></select>
+    </div>
+    <div class="q-box"><label>2. Apakah memiliki ternak berkuku belah di rumah yang sedang sakit?</label>
+        <select id="q2"><option value="0">TIDAK</option><option value="50">YA</option></select>
+    </div>
+    <div class="q-box"><label>3. Apakah kontak langsung dengan hewan ternak dalam 24 jam terakhir?</label>
+        <select id="q3"><option value="0">TIDAK</option><option value="40">YA</option></select>
+    </div>
+    <div class="q-box"><label>4. Apakah membawa produk asal hewan (daging/susu/kulit) saat ini?</label>
+        <select id="q4"><option value="0">TIDAK</option><option value="30">YA</option></select>
+    </div>
+    <div class="q-box"><label>5. Apakah kendaraan melewati area pasar hewan atau zona merah PMK?</label>
+        <select id="q5"><option value="0">TIDAK</option><option value="20">YA</option></select>
+    </div>
+    <div class="q-box"><label>6. Ada ternak PMK di sekitar rumah atau tempat terakhir dikunjungi?</label>
+        <select id="q6"><option value="0">TIDAK</option><option value="50">YA</option></select>
+    </div>
+
+    <div class="disclaimer-box">
+        <span class="disclaimer-text">⚠️ PERNYATAAN KEJUJUAN</span>
+        <label class="checkbox-container">
+            <input type="checkbox" id="setuju">
+            <span>Saya menyatakan bahwa seluruh data yang saya isi adalah <b>BENAR</b>. Apabila ditemukan ketidakjujuran, saya bersedia <b>DITOLAK MASUK PERMANEN</b> dan bertanggung jawab atas segala risiko biosecurity yang timbul sesuai hukum yang berlaku.</span>
+        </label>
+    </div>
+
+    <button id="btnKirim" onclick="kirimData()">KONFIRMASI & CEK HASIL</button>
+    
+    <div id="result"></div>
+</div>
+
+<script>
+    async function kirimData() {
+        const url = 'https://script.google.com/macros/s/AKfycbw8g7PmePdymxGFiYHq8MxIwwhU5L9AhVK6EFpugkjS90wh5NcJSw-QMlBeyfVZGQs/exec';
+        const btn = document.getElementById('btnKirim');
+        const resDiv = document.getElementById('result');
+        const isSetuju = document.getElementById('setuju').checked;
+
+        if (!isSetuju) {
+            alert("❌ Anda harus mencentang Pernyataan Kejujuran untuk melanjutkan.");
+            return;
+        }
+
+        const data = {
+            waktu: new Date().toLocaleString('id-ID'),
+            nama: document.getElementById('nama').value,
+            nik: document.getElementById('nik').value,
+            hp: document.getElementById('hp').value,
+            instansi: document.getElementById('instansi').value,
+            alamat: document.getElementById('alamat').value,
+            skor: parseInt(document.getElementById('q1').value) + parseInt(document.getElementById('q2').value) + 
+                  parseInt(document.getElementById('q3').value) + parseInt(document.getElementById('q4').value) + 
+                  parseInt(document.getElementById('q5').value) + parseInt(document.getElementById('q6').value)
+        };
+
+        if(!data.nama || !data.nik || !data.hp || !data.alamat || !data.instansi) {
+            alert("⚠️ Mohon lengkapi semua identitas tamu!");
+            return;
+        }
+
+        if (data.skor === 0) data.keputusan = "DITERIMA";
+        else if (data.skor <= 40) data.keputusan = "TERBATAS";
+        else data.keputusan = "DITOLAK";
+
+        btn.innerText = "⏳ Sedang Mengirim Data...";
+        btn.disabled = true;
+
+        try {
+            await fetch(url, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
+            resDiv.style.display = "block";
+            resDiv.className = "status-" + data.keputusan;
+            resDiv.innerHTML = `STATUS: ${data.keputusan}`;
+            resDiv.scrollIntoView({ behavior: 'smooth' });
+            alert("✅ Berhasil! Data kunjungan telah terekap.");
+            
+            // Reset Form
+            document.querySelectorAll('input, select').forEach(i => {
+                if(i.type === 'checkbox') i.checked = false;
+                else if(i.tagName === 'SELECT') i.value = '0';
+                else i.value = '';
+            });
+        } catch (e) {
+            alert("❌ Gagal terhubung ke server. Periksa koneksi.");
+        } finally {
+            btn.innerText = "KONFIRMASI & CEK HASIL";
+            btn.disabled = false;
+        }
+    }
+</script>
+</body>
+</html>
