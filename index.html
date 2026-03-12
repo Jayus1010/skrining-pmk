@@ -3,139 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skrining Tamu - PT Santosa Agrindo Farm Bekri</title>
+    <title>Skrining Tamu - PT Santosa Agrindo</title>
     <style>
-        /* Memastikan seluruh halaman bisa di-scroll */
+        :root {
+            --japfa-green: #38b449;
+            --japfa-orange: #f37021;
+            --japfa-dark: #231f20;
+            --bg-light: #f4f7f6;
+        }
+
         html, body { 
             height: auto; 
             min-height: 100%;
             margin: 0;
             padding: 0;
-            background-color: #eef2f3; 
+            background-color: var(--bg-light); 
         }
-        body { 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            padding: 20px; 
-            color: #333; 
-        }
-        .container { 
-            max-width: 600px; 
-            margin: 10px auto 40px; /* Jarak bawah ditambah agar tidak mepet */
-            background: white; 
-            padding: 25px; 
-            border-radius: 15px; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
-        }
-        h2 { color: #1b5e20; text-align: center; margin: 5px 0; font-size: 18px; text-transform: uppercase; }
-        p.subtitle { text-align: center; font-size: 12px; color: #666; margin-bottom: 20px; }
-        .divider { height: 4px; background: #2e7d32; width: 50px; margin: 0 auto 20px; border-radius: 2px; }
-        
-        .field { display: flex; flex-direction: column; margin-bottom: 15px; }
-        label { font-size: 13px; font-weight: bold; margin-bottom: 6px; color: #444; line-height: 1.4; }
-        input, select { padding: 12px; border: 1px solid #ced4da; border-radius: 8px; font-size: 14px; width: 100%; box-sizing: border-box; }
-        input:focus { border-color: #2e7d32; outline: none; box-shadow: 0 0 0 3px rgba(46,125,50,0.1); }
-        
-        .q-section { background: #f8f9fa; padding: 15px; border-radius: 10px; margin-top: 5px; border: 1px solid #e9ecef; }
-        .q-item { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
-        .q-item:last-child { border-bottom: none; margin-bottom: 0; }
 
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            color: var(--japfa-dark);
+            line-height: 1.6;
+        }
+
+        /* Header Styling */
+        .header {
+            background: linear-gradient(135deg, var(--japfa-green) 0%, #2e8b3a 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 5px solid var(--japfa-orange);
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .header h2 { margin: 0; font-size: 20px; letter-spacing: 1px; }
+        .header p { margin: 5px 0 0; font-size: 12px; opacity: 0.9; }
+
+        .container { 
+            max-width: 550px; 
+            margin: -20px auto 40px; 
+            padding: 0 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--japfa-green);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
+        }
+
+        /* Form Styling */
+        .field { display: flex; flex-direction: column; margin-bottom: 18px; }
+        label { 
+            font-size: 13px; 
+            font-weight: 600; 
+            margin-bottom: 8px; 
+            color: #555; 
+        }
+
+        input, select { 
+            padding: 12px 15px; 
+            border: 1.5px solid #e0e0e0; 
+            border-radius: 10px; 
+            font-size: 14px; 
+            transition: all 0.3s;
+            background-color: #fafafa;
+        }
+
+        input:focus, select:focus { 
+            border-color: var(--japfa-green); 
+            background-color: white;
+            outline: none; 
+            box-shadow: 0 0 0 4px rgba(56, 180, 73, 0.1); 
+        }
+
+        /* Question Box */
+        .q-box {
+            background: #fff;
+            border-left: 5px solid var(--japfa-orange);
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        /* Button Styling */
         button { 
             width: 100%; 
             padding: 16px; 
-            background: #2e7d32; 
+            background: var(--japfa-orange); 
             color: white; 
             border: none; 
-            border-radius: 8px; 
+            border-radius: 12px; 
             font-size: 16px; 
             font-weight: bold; 
             cursor: pointer; 
             transition: 0.3s; 
             margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(243, 112, 33, 0.3);
         }
-        button:hover { background: #1b5e20; }
-        button:disabled { background: #ccc; cursor: not-allowed; }
 
-        #result { margin-top: 25px; padding: 20px; border-radius: 10px; display: none; text-align: center; font-size: 18px; font-weight: bold; }
-        .status-DITERIMA { background: #d4edda; color: #155724; border: 2px solid #c3e6cb; }
-        .status-TERBATAS { background: #fff3cd; color: #856404; border: 2px solid #ffeeba; }
-        .status-DITOLAK { background: #f8d7da; color: #721c24; border: 2px solid #f5c6cb; }
+        button:hover { 
+            background: #d95d10; 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(243, 112, 33, 0.4);
+        }
+
+        button:active { transform: translateY(0); }
+
+        /* Result Styling */
+        #result { 
+            margin-top: 25px; 
+            padding: 20px; 
+            border-radius: 12px; 
+            display: none; 
+            text-align: center; 
+            font-size: 18px; 
+            font-weight: bold; 
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .status-DITERIMA { background: #e8f5e9; color: #2e7d32; border: 2px solid var(--japfa-green); }
+        .status-TERBATAS { background: #fffde7; color: #f9a825; border: 2px solid #f9a825; }
+        .status-DITOLAK { background: #ffebee; color: #c62828; border: 2px solid #ef5350; }
+
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="header">
     <h2>Skrining Tamu</h2>
-    <h2>PT Santosa Agrindo Farm Bekri</h2>
-    <p class="subtitle">Prosedur Biosekuriti Pencegahan Wabah PMK</p>
-    <div class="divider"></div>
-    
-    <div class="field">
-        <label>Nama Lengkap</label>
-        <input type="text" id="nama" placeholder="Nama sesuai identitas">
-    </div>
-    <div class="field">
-        <label>NIK (16 Digit Angka)</label>
-        <input type="text" id="nik" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="Input angka saja">
-    </div>
-    <div class="field">
-        <label>No. HP / WhatsApp (Angka)</label>
-        <input type="text" id="hp" maxlength="15" oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="Input angka saja">
-    </div>
-    <div class="field">
-        <label>Instansi / Perusahaan</label>
-        <input type="text" id="instansi" placeholder="Misal: PT. ABC / Dinas / Pribadi">
-    </div>
-    <div class="field">
-        <label>Alamat Asal / Domisili</label>
-        <input type="text" id="alamat" placeholder="Kota / Kabupaten">
-    </div>
+    <h2>PT Santosa Agrindo - Farm Bekri</h2>
+    <p>Biosecurity Guard System • Pencegahan Wabah PMK</p>
+</div>
 
-    <div class="q-section">
-        <div class="q-item">
-            <label>1. Dalam 72 jam (3 hari) terakhir, apakah Anda mengunjungi peternakan sapi/kambing/babi lain?</label>
-            <select id="q1">
-                <option value="0">Tidak</option>
-                <option value="40">Ya</option>
-            </select>
+<div class="container">
+    <div class="card">
+        <div class="section-title">📦 Identitas Tamu</div>
+        
+        <div class="field">
+            <label>Nama Lengkap</label>
+            <input type="text" id="nama" placeholder="Sesuai KTP">
         </div>
-        <div class="q-item">
-            <label>2. Apakah Anda memiliki ternak berkuku belah di rumah yang sedang sakit?</label>
-            <select id="q2">
-                <option value="0">Tidak</option>
-                <option value="50">Ya</option>
-            </select>
+
+        <div class="field">
+            <label>NIK (16 Digit)</label>
+            <input type="text" id="nik" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="Input angka saja">
         </div>
-        <div class="q-item">
-            <label>3. Apakah Anda melakukan kontak langsung dengan hewan ternak dalam 24 jam terakhir?</label>
-            <select id="q3">
-                <option value="0">Tidak</option>
-                <option value="40">Ya</option>
-            </select>
+
+        <div class="field">
+            <label>No. HP / WhatsApp</label>
+            <input type="text" id="hp" maxlength="15" oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="Input angka saja">
         </div>
-        <div class="q-item">
-            <label>4. Apakah Anda membawa produk asal hewan (daging mentah, susu segar, olahan kulit) saat ini?</label>
-            <select id="q4">
-                <option value="0">Tidak</option>
-                <option value="30">Ya</option>
-            </select>
+
+        <div class="field">
+            <label>Instansi / Perusahaan</label>
+            <input type="text" id="instansi" placeholder="Misal: PT. ABC / Dinas / Pribadi">
         </div>
-        <div class="q-item">
-            <label>5. Apakah kendaraan yang Anda gunakan melewati area pasar hewan atau zona merah PMK?</label>
-            <select id="q5">
-                <option value="0">Tidak</option>
-                <option value="20">Ya</option>
-            </select>
-        </div>
-        <div class="q-item">
-            <label>6. Apakah ada ternak kuku belah yang terkena PMK di sekitar rumah anda atau tempat terakhir yang dikunjungi?</label>
-            <select id="q6">
-                <option value="0">Tidak</option>
-                <option value="50">Ya</option>
-            </select>
+
+        <div class="field">
+            <label>Alamat Asal / Domisili</label>
+            <input type="text" id="alamat" placeholder="Kota / Kabupaten">
         </div>
     </div>
 
-    <button id="btnKirim" onclick="kirimData()">Simpan & Cek Hasil</button>
+    <div class="section-title">📋 Kuesioner Biosekuriti</div>
+
+    <div class="q-box">
+        <label>1. Dalam 72 jam (3 hari) terakhir, apakah mengunjungi peternakan lain?</label>
+        <select id="q1" style="width: 100%; margin-top:8px;">
+            <option value="0">TIDAK</option>
+            <option value="40">YA</option>
+        </select>
+    </div>
+
+    <div class="q-box">
+        <label>2. Apakah memiliki ternak berkuku belah di rumah yang sedang sakit?</label>
+        <select id="q2" style="width: 100%; margin-top:8px;">
+            <option value="0">TIDAK</option>
+            <option value="50">YA</option>
+        </select>
+    </div>
+
+    <div class="q-box">
+        <label>3. Apakah kontak langsung dengan hewan ternak dalam 24 jam terakhir?</label>
+        <select id="q3" style="width: 100%; margin-top:8px;">
+            <option value="0">TIDAK</option>
+            <option value="40">YA</option>
+        </select>
+    </div>
+
+    <div class="q-box">
+        <label>4. Apakah membawa produk asal hewan (daging/susu/kulit) saat ini?</label>
+        <select id="q4" style="width: 100%; margin-top:8px;">
+            <option value="0">TIDAK</option>
+            <option value="30">YA</option>
+        </select>
+    </div>
+
+    <div class="q-box">
+        <label>5. Apakah kendaraan melewati area pasar hewan atau zona merah PMK?</label>
+        <select id="q5" style="width: 100%; margin-top:8px;">
+            <option value="0">TIDAK</option>
+            <option value="20">YA</option>
+        </select>
+    </div>
+
+    <div class="q-box">
+        <label>6. Ada ternak PMK di sekitar rumah atau tempat terakhir dikunjungi?</label>
+        <select id="q6" style="width: 100%; margin-top:8px;">
+            <option value="0">TIDAK</option>
+            <option value="50">YA</option>
+        </select>
+    </div>
+
+    <button id="btnKirim" onclick="kirimData()">KONFIRMASI & CEK HASIL</button>
     
     <div id="result"></div>
 </div>
@@ -163,20 +262,15 @@
         };
 
         if(!data.nama || !data.nik || !data.hp || !data.alamat || !data.instansi) {
-            alert("Mohon lengkapi semua identitas tamu!");
+            alert("⚠️ Mohon lengkapi semua identitas tamu!");
             return;
         }
 
-        // Logic Keputusan
-        if (data.skor === 0) {
-            data.keputusan = "DITERIMA";
-        } else if (data.skor <= 40) {
-            data.keputusan = "TERBATAS";
-        } else {
-            data.keputusan = "DITOLAK";
-        }
+        if (data.skor === 0) data.keputusan = "DITERIMA";
+        else if (data.skor <= 40) data.keputusan = "TERBATAS";
+        else data.keputusan = "DITOLAK";
 
-        btn.innerText = "Mengirim...";
+        btn.innerText = "⏳ Memproses Data...";
         btn.disabled = true;
 
         try {
@@ -188,20 +282,18 @@
 
             resDiv.style.display = "block";
             resDiv.className = "status-" + data.keputusan;
-            resDiv.innerHTML = `HASIL KEPUTUSAN: ${data.keputusan}`;
+            resDiv.innerHTML = `STATUS: ${data.keputusan}`;
             
-            // Scroll otomatis ke box hasil agar tamu langsung lihat
             resDiv.scrollIntoView({ behavior: 'smooth' });
 
-            alert("Data Berhasil Terkirim.");
+            alert("✅ Berhasil! Data kunjungan telah terekap.");
             
-            // Kosongkan form
             document.querySelectorAll('input').forEach(i => i.value = '');
             document.querySelectorAll('select').forEach(s => s.value = '0');
         } catch (e) {
-            alert("Gagal mengirim. Periksa koneksi.");
+            alert("❌ Gagal terhubung ke server.");
         } finally {
-            btn.innerText = "Simpan & Cek Hasil";
+            btn.innerText = "KONFIRMASI & CEK HASIL";
             btn.disabled = false;
         }
     }
