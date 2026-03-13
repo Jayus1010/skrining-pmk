@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skrining Tamu - PT Santosa Agrindo</title>
+    <title>Digital Pass - PT Santosa Agrindo</title>
     <style>
         :root {
             --japfa-green: #38b449;
@@ -23,8 +23,8 @@
             border-bottom-left-radius: 25px; border-bottom-right-radius: 25px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .header h2 { margin: 0; font-size: 20px; letter-spacing: 1px; }
-        .header p { margin: 5px 0 0; font-size: 13px; font-weight: bold; opacity: 1; color: #fff; }
+        .header h2 { margin: 0; font-size: 18px; letter-spacing: 1px; text-transform: uppercase; }
+        .header p { margin: 5px 0 0; font-size: 13px; font-weight: bold; color: #fff; }
 
         .container { max-width: 550px; margin: -20px auto 40px; padding: 0 15px; }
         
@@ -42,14 +42,7 @@
         .q-box { background: #fff; border-left: 5px solid var(--japfa-orange); padding: 15px; margin-bottom: 12px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
 
         /* Disclaimer Styling */
-        .disclaimer-box {
-            background: #fff3e0;
-            border: 1px solid #ffe0b2;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            font-size: 13px;
-        }
+        .disclaimer-box { background: #fff3e0; border: 1px solid #ffe0b2; padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 13px; }
         .disclaimer-text { color: #e65100; font-weight: bold; display: block; margin-bottom: 10px; font-size: 14px; }
         .checkbox-container { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
         .checkbox-container input { width: 20px; height: 20px; cursor: pointer; flex-shrink: 0; margin-top: 2px; }
@@ -63,139 +56,8 @@
         button:hover { background: #d95d10; transform: translateY(-2px); }
         button:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        /* Result Styling */
-        #result { margin-top: 25px; padding: 20px; border-radius: 12px; display: none; text-align: center; font-size: 18px; font-weight: bold; }
-        .status-DITERIMA { background: #e8f5e9; color: #2e7d32; border: 2px solid var(--japfa-green); }
-        .status-TERBATAS { background: #fffde7; color: #f9a825; border: 2px solid #f9a825; }
-        .status-DITOLAK { background: #ffebee; color: #c62828; border: 2px solid #ef5350; }
-    </style>
-</head>
-<body>
+        /* DIGITAL PASS STYLING */
+        #result { margin-top: 25px; display: none; animation: slideUp 0.5s ease-out; }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-<div class="header">
-    <h2>Skrining Tamu</h2>
-    <h2>PT Santosa Agrindo - Farm Bekri</h2>
-    <p>Biosecurity Guard System • Japfa Food</p>
-</div>
-
-<div class="container">
-    <div class="card" style="margin-top: 20px;">
-        <div class="section-title">📦 Identitas Tamu</div>
-        <div class="field">
-            <label>Nama Lengkap</label>
-            <input type="text" id="nama" placeholder="Nama sesuai identitas">
-        </div>
-        <div class="field">
-            <label>NIK (16 Digit)</label>
-            <input type="text" id="nik" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="Input angka saja">
-        </div>
-        <div class="field">
-            <label>No. HP / WhatsApp</label>
-            <input type="text" id="hp" maxlength="15" oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="Input angka saja">
-        </div>
-        <div class="field">
-            <label>Instansi / Perusahaan</label>
-            <input type="text" id="instansi" placeholder="Contoh: PT. ABC / Pribadi">
-        </div>
-        <div class="field">
-            <label>Alamat Asal / Domisili</label>
-            <input type="text" id="alamat" placeholder="Kota / Kabupaten">
-        </div>
-    </div>
-
-    <div class="section-title">📋 Kuesioner Biosecurity</div>
-
-    <div class="q-box"><label>1. Dalam 72 jam (3 hari) terakhir, apakah anda mengunjungi peternakan lain?</label>
-        <select id="q1"><option value="0">TIDAK</option><option value="40">YA</option></select>
-    </div>
-    <div class="q-box"><label>2. Apakah anda memiliki ternak berkuku belah di rumah yang sedang sakit?</label>
-        <select id="q2"><option value="0">TIDAK</option><option value="50">YA</option></select>
-    </div>
-    <div class="q-box"><label>3. Apakah anda melakukan kontak langsung dengan hewan ternak dalam 24 jam terakhir?</label>
-        <select id="q3"><option value="0">TIDAK</option><option value="40">YA</option></select>
-    </div>
-    <div class="q-box"><label>4. Apakah saat ini anda membawa produk asal hewan (daging/susu/kulit)?</label>
-        <select id="q4"><option value="0">TIDAK</option><option value="30">YA</option></select>
-    </div>
-    <div class="q-box"><label>5. Apakah kendaraan anda melewati area pasar hewan atau zona merah PMK?</label>
-        <select id="q5"><option value="0">TIDAK</option><option value="20">YA</option></select>
-    </div>
-    <div class="q-box"><label>6. Apakah ada ternak kuku belah yang terkena PMK di sekitar rumah anda atau tempat terkahir yang Anda kunjungi? </label>
-        <select id="q6"><option value="0">TIDAK</option><option value="50">YA</option></select>
-    </div>
-
-    <div class="disclaimer-box">
-        <span class="disclaimer-text">⚠️ PERNYATAAN KEJUJURAN</span>
-        <label class="checkbox-container">
-            <input type="checkbox" id="setuju">
-            <span>Saya menyatakan bahwa seluruh data yang saya isi adalah <b>BENAR</b>. Apabila ditemukan ketidakjujuran, saya bersedia <b>DITOLAK MASUK PERMANEN</b> dan bertanggung jawab atas segala risiko biosecurity yang timbul sesuai hukum yang berlaku.</span>
-        </label>
-    </div>
-
-    <button id="btnKirim" onclick="kirimData()">KONFIRMASI & CEK HASIL</button>
-    
-    <div id="result"></div>
-</div>
-
-<script>
-    async function kirimData() {
-        const url = 'https://script.google.com/macros/s/AKfycbw8g7PmePdymxGFiYHq8MxIwwhU5L9AhVK6EFpugkjS90wh5NcJSw-QMlBeyfVZGQs/exec';
-        const btn = document.getElementById('btnKirim');
-        const resDiv = document.getElementById('result');
-        const isSetuju = document.getElementById('setuju').checked;
-
-        if (!isSetuju) {
-            alert("❌ Anda harus mencentang Pernyataan Kejujuran untuk melanjutkan.");
-            return;
-        }
-
-        const data = {
-            waktu: new Date().toLocaleString('id-ID'),
-            nama: document.getElementById('nama').value,
-            nik: document.getElementById('nik').value,
-            hp: document.getElementById('hp').value,
-            instansi: document.getElementById('instansi').value,
-            alamat: document.getElementById('alamat').value,
-            skor: parseInt(document.getElementById('q1').value) + parseInt(document.getElementById('q2').value) + 
-                  parseInt(document.getElementById('q3').value) + parseInt(document.getElementById('q4').value) + 
-                  parseInt(document.getElementById('q5').value) + parseInt(document.getElementById('q6').value)
-        };
-
-        if(!data.nama || !data.nik || !data.hp || !data.alamat || !data.instansi) {
-            alert("⚠️ Mohon lengkapi semua identitas tamu!");
-            return;
-        }
-
-        if (data.skor === 0) data.keputusan = "DITERIMA";
-        else if (data.skor <= 40) data.keputusan = "TERBATAS";
-        else data.keputusan = "DITOLAK";
-
-        btn.innerText = "⏳ Sedang Mengirim Data...";
-        btn.disabled = true;
-
-        try {
-            await fetch(url, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-            resDiv.style.display = "block";
-            resDiv.className = "status-" + data.keputusan;
-            resDiv.innerHTML = `STATUS: ${data.keputusan}`;
-            resDiv.scrollIntoView({ behavior: 'smooth' });
-            alert("✅ Berhasil! Data kunjungan telah terekap.");
-            
-            // Reset Form
-            document.querySelectorAll('input, select').forEach(i => {
-                if(i.type === 'checkbox') i.checked = false;
-                else if(i.tagName === 'SELECT') i.value = '0';
-                else i.value = '';
-            });
-        } catch (e) {
-            alert("❌ Gagal terhubung ke server. Periksa koneksi.");
-        } finally {
-            btn.innerText = "KONFIRMASI & CEK HASIL";
-            btn.disabled = false;
-        }
-    }
-</script>
-</body>
-</html>
-
-
+        .pass-card { padding: 35px 25px; border-radius: 20px; text-align: center; color: white; box-shadow: 0 15px 35px rgba(0,0,0
